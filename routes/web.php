@@ -20,4 +20,16 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::middleware('auth')->get('/admin/home', '/Admin\HomeController@index')->name('admin.home');
+// Route::middleware('auth')->get('/admin/home', 'Admin\HomeController@index')->name('admin.home');
+
+Route::middleware('auth')
+    ->prefix('admin') // Prefisso sul percorso della rotta
+    ->name('admin.') // Prefisso sul nome della rotta
+    ->namespace('Admin') // Prefisso sul percorso del Controller
+    ->group(function() {
+
+    Route::get('/home', 'HomeController@index')->name('home');
+
+    // Creo rotte per gestire i Post
+    Route::resource('post', 'PostController'); // Ci genera tutte le 7 rotte
+});
